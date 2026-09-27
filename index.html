@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Solar Physics Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0a0a2a">
+    <!-- Three.js para renderizado 3D -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div id="ui-layer">
+        <header>
+            <h1>Solar Physics</h1>
+            <div id="time-controls">
+                <button id="btn-pause">⏸</button>
+                <button id="btn-play">▶</button>
+                <select id="time-scale">
+                    <option value="1">x1</option>
+                    <option value="1000">x1,000</option>
+                    <option value="10000" selected>x10,000</option>
+                    <option value="100000">x100,000</option>
+                    <option value="1000000">x1,000,000</option>
+                </select>
+            </div>
+            <div id="view-controls">
+                <select id="scale-mode">
+                    <option value="real">Escala Real</option>
+                    <option value="visual" selected>Escala Visual</option>
+                    <option value="edu">Escala Educativa</option>
+                </select>
+            </div>
+        </header>
+
+        <div id="info-panel" class="panel hidden">
+            <h2 id="info-name">-</h2>
+            <p>Masa: <span id="info-mass">-</span> kg</p>
+            <p>Radio: <span id="info-radius">-</span> km</p>
+            <p>Distancia al Sol: <span id="info-dist">-</span> UA</p>
+            <p>Velocidad: <span id="info-vel">-</span> km/s</p>
+            <button id="btn-close-info">Cerrar</button>
+        </div>
+
+        <div id="launch-panel" class="panel hidden">
+            <h2>🚀 Lanzamiento</h2>
+            <label>Velocidad inicial (relativa a la Tierra): <span id="val-vel">10</span> km/s</label>
+            <input type="range" id="slider-vel" min="0" max="50" step="0.1" value="10">
+            
+            <label>Ángulo de salida: <span id="val-angle">0</span>°</label>
+            <input type="range" id="slider-angle" min="0" max="360" step="1" value="0">
+            
+            <button id="btn-launch" class="primary">Lanzar Nave</button>
+            <button id="btn-close-launch">Cancelar</button>
+        </div>
+
+        <div id="mission-panel" class="panel">
+            <h2>Misiones</h2>
+            <p id="mission-desc">Misión 1: Conoce el Sistema Solar. Selecciona un planeta para ver sus datos físicos.</p>
+        </div>
+
+        <nav id="bottom-nav">
+            <button id="nav-launch">🚀 Lanzar</button>
+            <button id="nav-lab">🔬 Laboratorio</button>
+            <button id="nav-reset">🔄 Reiniciar</button>
+        </nav>
+        
+        <div id="hud-energy">
+            Conservación de Energía: <span id="energy-val">100%</span>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="physics.js"></script>
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('SW registrado', reg))
+                .catch(err => console.error('Error en SW', err));
+        }
+    </script>
+</body>
+</html>
